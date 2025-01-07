@@ -1,12 +1,8 @@
 const express = require("express");
 const doent = require("dotenv");
 
-const connectToDatabase = require("./src/database/mongoose.database");
-
 doent.config();
 const app = express();
-
-connectToDatabase();
 
 app.get("/", (req, res) => {
     res.status(200).send("Hello World");
