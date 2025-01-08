@@ -24,10 +24,6 @@ app.get("/tasks/:id", async (req, res) => {
         const taskId = req.params.id;
 
         const task = await TaskModel.findById(taskId);
-
-        if (!task) {
-            return res.status(404).send("Task not found");
-        }
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -52,7 +48,7 @@ app.delete("/tasks/:id", async (req, res) => {
         const tasksTodelete = await TaskModel.findById(taskId);
 
         if (!tasksTodelete) {
-            return res.status(404).send("Task not found");
+            return res.status(500).send("Task not found");
         }
 
         const deletedTasks = await TaskModel.findByIdAndDelete(taskId);

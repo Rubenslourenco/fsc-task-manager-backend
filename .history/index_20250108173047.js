@@ -28,6 +28,8 @@ app.get("/tasks/:id", async (req, res) => {
         if (!task) {
             return res.status(404).send("Task not found");
         }
+
+        res.status(200).send(deletedTasks);
     } catch (error) {
         res.status(500).send(error.message);
     }
