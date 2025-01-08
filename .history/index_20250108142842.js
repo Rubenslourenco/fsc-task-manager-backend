@@ -6,7 +6,6 @@ const TaskModel = require("./src/models/task.model");
 
 doent.config();
 const app = express();
-app.use(express.json());
 
 connectToDatabase();
 
@@ -20,15 +19,10 @@ app.get("/tasks", async (req, res) => {
 });
 
 app.post("/tasks", async (req, res) => {
-    try {
-        const newTask = new TaskModel(req.body);
+    // const newTask = new TaskModel();
+    console.log(req.body);
 
-        await newTask.save();
-
-        res.status(201).send(newTask);
-    } catch (error) {
-        res.status(500).send(error.message);
-    }
+    res.status(200).send("created");
 });
 
 app.listen(8000, () => console.log("listening on port 8000"));
