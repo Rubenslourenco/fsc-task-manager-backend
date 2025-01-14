@@ -28,6 +28,7 @@ app.get("/tasks/:id", async (req, res) => {
         if (!task) {
             return res.status(404).send("Task not found");
         }
+        return res.status(200).send(task);
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -40,6 +41,19 @@ app.post("/tasks", async (req, res) => {
         await newTask.save();
 
         res.status(201).send(newTask);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+app.patch("/tasks/:id", async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const taskData = req.body;
+
+        const updatedTask = await TaskModel.findByIdAndUpdate(taskId, taskData);
+
+        res.status(200).send(updatedTask);
     } catch (error) {
         res.status(500).send(error.message);
     }
