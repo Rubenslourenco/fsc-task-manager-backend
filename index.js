@@ -49,11 +49,22 @@ app.post("/tasks", async (req, res) => {
 app.patch("/tasks/:id", async (req, res) => {
     try {
         const taskId = req.params.id;
-        const taskData = req.body;
 
-        const updatedTask = await TaskModel.findByIdAndUpdate(taskId, taskData);
+        const taskToUpdated = await TaskModel.findById(taskId);
 
-        res.status(200).send(updatedTask);
+        const allowedUpdates = ["isCompleted"];
+        const requestedUpdates = Object.keys(req.body);
+
+        for (update of requestedUpdates) {
+            if (allowedUpdates.includes(update)) {
+                taskToUpdated[update] = req.body[update];
+            } else {
+                return res.status(500).send("Invalid update");
+            }
+        }
+
+        await taskToUpdated.save();
+        res.status(200).send(taskToUpdated);
     } catch (error) {
         res.status(500).send(error.message);
     }
